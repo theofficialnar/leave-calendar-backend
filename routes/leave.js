@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { ObjectID } = require('mongodb');
 
 const Leave = require('../models/leave');
 const User = require('../models/user');
@@ -21,8 +22,62 @@ router.post('/', async (req, res, next) => {
     user.save();
 
     res.status(201).json({
-      message: 'Leave successfully added',
+      message: 'Leave added',
       data: mongoUpload
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+/** Delete a specific leave */
+router.delete('/:leaveId', async (req, res, next) => {
+  if (!ObjectID.isValid(req.params.leaveId)) {
+    let err = new Error('Invalid ID');
+    return next(err);
+  }
+  
+  try {
+    let leaveId = await Leave.findById(req.params.leaveId);
+    if (leaveId === null) {
+      let err = new Error('ID not found');
+      next(err);
+    }
+    let toDelete = await leaveId.remove();
+    res.status(200).json({
+      message: 'Leave removed',
+      data: toDelete
+    });
+  } catch (error) {
+    next(error)
+  }
+});
+
+/**  Update a specific leave */
+router.patch('/:leaveId', async (req, res, next) => {
+  if (!ObjectID.isValid(req.params.leaveId)) {
+    let err = new Error('ID does not exist');
+    return next(err);
+  }
+
+  try {
+    let toUpdate = await Leave.findByIdAndUpdate(req.params.leaveId, req.body, {new: true});
+    res.status(200).json({
+      message: 'Leave updated',
+      data: toUpdate
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+/** Get all leaves */
+router.get('/', async (req, res, next) => {
+  try {
+    let allLeaves = await Leave.find();
+    res.status(200).json({
+      message: 'All leaves fetched',
+      data: allLeaves
     });
   } catch (error) {
     next(error);

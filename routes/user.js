@@ -38,12 +38,16 @@ router.get('/', async (req, res, next) => {
 /** Get a specific user's info */
 router.get('/:userId', async (req, res, next) => {
   if (!ObjectID.isValid(req.params.userId)) {
-    let err = new Error('User does not exist');
-    next(err);
+    let err = new Error('Invalid user ID');
+    return next(err);
   }
 
   try {
     let user = await User.findById(req.params.userId);
+    if (user === null) {
+      let err = new Error('User does not exist');
+      return next(err);
+    }
     res.status(200).json({
       message: 'User info fetched',
       data: user
