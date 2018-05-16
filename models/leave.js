@@ -18,6 +18,10 @@ var schema = new Schema({
   end: {
     type: String,
     required: true
+  },
+  type: {
+    type: String,
+    required: true
   }
 });
 
