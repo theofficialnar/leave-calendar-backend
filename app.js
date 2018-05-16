@@ -9,11 +9,15 @@ var mongoose = require('mongoose');
 var index = require('./routes/index');
 var user = require('./routes/user');
 var leave = require('./routes/leave');
+var cronLeave = require('./utils/cronLeaveCredit');
 
 var app = express();
 
 mongoose.connect('mongodb://localhost:27017/leave-tracker').then(
-  () => console.log('Now connected to mongoDB'),
+  () => {
+    console.log('Now connected to mongoDB');
+    cronLeave.start();
+  },
   (err) => console.error(err)
 );
 
