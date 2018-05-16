@@ -57,4 +57,28 @@ router.get('/:userId', async (req, res, next) => {
   }
 });
 
+/**
+ * Remove user
+ */
+router.delete('/:userId', async (req, res, next) => {
+  if (!ObjectID.isValid(req.params.userId)) {
+    let err = new Error('Invalid user ID');
+    return next(err);
+  }
+
+  try {
+    let userId = await User.findById(req.params.userId);
+    if (userId === null) {
+      let err = new Error('ID not found');
+      next(err);
+    }
+    let toDelete = await userId.remove();
+    res.status(200).json({
+      message: 'User removed',
+      data: toDelete
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = router;
