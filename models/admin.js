@@ -20,9 +20,9 @@ var schema = new Schema({
 schema.plugin(muv);
 
 /** Custom method to create JWT */
-schema.methods.genToken = () => {
+schema.methods.genToken = function () {
   let user = this;
-  let token = jwt.sign({_id : user._id},
+  let token = jwt.sign({_id : user._id.toHexString()},
   process.env.JWT_SECRET,
   {expiresIn: 3600});
   return token;
