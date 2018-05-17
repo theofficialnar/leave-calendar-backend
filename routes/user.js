@@ -3,9 +3,10 @@ const router = express.Router();
 const { ObjectID } = require('mongodb');
 
 const User = require('../models/user');
+const authenticate = require('../middleware/authenticate');
 
 /** Add a new user */
-router.post('/', async (req, res, next) => {
+router.post('/', authenticate, async (req, res, next) => {
   let newUser = new User({
     fullName: req.body.fullName,
     leaveCredits: req.body.leaveCredits || 0
