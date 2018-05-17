@@ -1,3 +1,4 @@
+require('./config/config');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -14,7 +15,7 @@ var cronLeave = require('./utils/cronLeaveCredit');
 
 var app = express();
 
-mongoose.connect('mongodb://localhost:27017/leave-tracker').then(
+mongoose.connect(process.env.MONGODB_URI).then(
   () => {
     console.log('Now connected to mongoDB');
     cronLeave.start();

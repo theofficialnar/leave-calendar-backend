@@ -23,7 +23,17 @@ router.post('/', async (req, res, next) => {
 
 /** Log in */
 router.post('/signin', async (req, res, next) => {
-  
+  try {
+    let user = await Admin.findByCredentials(req.body.userName, req.body.password);
+    let token = await user.genToken();
+    res.status(200).json({
+      message: 'Log in successful',
+      token,
+      user: user._id
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = router;
