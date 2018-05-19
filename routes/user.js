@@ -61,7 +61,7 @@ router.get('/:userId', async (req, res, next) => {
 /**
  * Remove user
  */
-router.delete('/:userId', async (req, res, next) => {
+router.delete('/:userId', authenticate, async (req, res, next) => {
   if (!ObjectID.isValid(req.params.userId)) {
     let err = new Error('Invalid user ID');
     return next(err);
