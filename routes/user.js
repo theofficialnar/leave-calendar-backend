@@ -40,6 +40,7 @@ router.get('/:userId', async (req, res, next) => {
   }
 });
 
+<<<<<<< HEAD
 /******************* ROUTES REQUIRING ADMIN RIGHTS ***************/
 
 /** Add a new user */
@@ -61,6 +62,11 @@ router.post('/', authenticate, async (req, res, next) => {
 });
 
 /** Remove user */
+=======
+/**
+ * Remove user
+ */
+>>>>>>> 1e24a52d8c7eb6eda8e2b30a0430508b4dfb430a
 router.delete('/:userId', authenticate, async (req, res, next) => {
   if (!ObjectID.isValid(req.params.userId)) {
     let err = new Error('Invalid user ID');
