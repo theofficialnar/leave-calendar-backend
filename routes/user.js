@@ -41,6 +41,24 @@ router.get('/:userId', async (req, res, next) => {
 });
 
 /******************* ROUTES REQUIRING ADMIN RIGHTS ***************/
+/** Update user info */
+router.patch('/:userId', authenticate, async (req, res, next) => {
+  if (!ObjectID.isValid(req.params.userId)) {
+    let err = new Error('ID does not exist');
+    return next(err);
+  }
+
+  try {
+    let toUpdate = await User.findByIdAndUpdate(req.params.userId, req.body, {new: true});
+    res.status(200).json({
+      message: 'User updated',
+      data: toUpdate
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 
 /** Add a new user */
 router.post('/', authenticate, async (req, res, next) => {
