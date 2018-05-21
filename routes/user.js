@@ -5,24 +5,6 @@ const { ObjectID } = require('mongodb');
 const User = require('../models/user');
 const authenticate = require('../middleware/authenticate');
 
-/** Add a new user */
-router.post('/', authenticate, async (req, res, next) => {
-  let newUser = new User({
-    fullName: req.body.fullName,
-    leaveCredits: req.body.leaveCredits || 0
-  });
-
-  try {
-    let mongoUpload = await newUser.save();
-    res.status(201).json({
-      message: 'User created',
-      data: mongoUpload
-    });
-  } catch (error) {
-    next(error);
-  }
-});
-
 /** Get all users */
 router.get('/', async (req, res, next) => {
   try {
@@ -58,10 +40,28 @@ router.get('/:userId', async (req, res, next) => {
   }
 });
 
-/**
- * Remove user
- */
-router.delete('/:userId', async (req, res, next) => {
+/******************* ROUTES REQUIRING ADMIN RIGHTS ***************/
+
+/** Add a new user */
+router.post('/', authenticate, async (req, res, next) => {
+  let newUser = new User({
+    fullName: req.body.fullName,
+    leaveCredits: req.body.leaveCredits || 0
+  });
+
+  try {
+    let mongoUpload = await newUser.save();
+    res.status(201).json({
+      message: 'User created',
+      data: mongoUpload
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+/** Remove user */
+router.delete('/:userId', authenticate, async (req, res, next) => {
   if (!ObjectID.isValid(req.params.userId)) {
     let err = new Error('Invalid user ID');
     return next(err);
