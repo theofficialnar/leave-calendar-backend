@@ -7,14 +7,15 @@ const User = require('../models/user');
 
 /** Post a new leave */
 router.post('/', async (req, res, next) => {
+  const user = await User.findById(req.body.userId);
+  let newLeave = new Leave ({
+    userId: user._id,
+    status: req.body.status,
+    start: req.body.start,
+    end: req.body.end,
+    type: req.body.type
+  });
   try {
-    const user = await User.findById(req.body.userId);
-    let newLeave = new Leave ({
-      userId: user._id,
-      status: req.body.status,
-      start: req.body.start,
-      end: req.body.end
-    });
     let mongoUpload = await newLeave.save();
 
     /** Push the newly added leave to the user's filedLeaves array */
@@ -74,7 +75,7 @@ router.patch('/:leaveId', async (req, res, next) => {
 /** Get all leaves */
 router.get('/', async (req, res, next) => {
   try {
-    let allLeaves = await Leave.find();
+    let allLeaves = await Leave.find().populate('userId');
     res.status(200).json({
       message: 'All leaves fetched',
       data: allLeaves
