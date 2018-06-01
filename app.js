@@ -14,11 +14,11 @@ var admin = require('./routes/admin');
 var cronLeave = require('./utils/cronLeaveCredit');
 
 var app = express();
+cronLeave.start();
 
 mongoose.connect(process.env.MONGODB_URI).then(
   () => {
     console.log('Now connected to mongoDB');
-    cronLeave.start();
   },
   (err) => console.error(err)
 );
