@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const muv = require('mongoose-unique-validator');
-const Leave = require('./leave');
+
 const { ObjectID } = require('mongodb');
 
 var schema = new Schema({
@@ -24,6 +24,7 @@ var schema = new Schema({
 schema.plugin(muv);
 
 schema.pre('remove', function (next) {
+  const Leave = require('./leave');
   let user = this;
   let toDelete = [];
   user.filedLeaves.forEach(function(item) {

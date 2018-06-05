@@ -12,14 +12,15 @@ router.post('/', async (req, res, next) => {
     userId: user._id,
     status: req.body.status,
     start: req.body.start,
-    end: req.body.end,
-    type: req.body.type
+    end: req.body.end
   });
   try {
     let mongoUpload = await newLeave.save();
 
     /** Push the newly added leave to the user's filedLeaves array */
     user.filedLeaves.push(mongoUpload);
+    let newCredits = user.leaveCredits - req.body.toDeduct;
+    user.leaveCredits = newCredits;
     user.save();
 
     res.status(201).json({
