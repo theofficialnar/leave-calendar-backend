@@ -45,6 +45,12 @@ router.delete('/:leaveId', async (req, res, next) => {
       let err = new Error('ID not found');
       next(err);
     }
+    /** Refund leave credits */
+    const user = await User.findById(leaveId.userId);
+    let newCredits = user.leaveCredits + Number(req.body.toAdd);
+    user.leaveCredits = newCredits;
+    user.save();
+
     let toDelete = await leaveId.remove();
     res.status(200).json({
       message: 'Leave removed',
