@@ -10,6 +10,10 @@ var schema = new Schema({
     type: String,
     required: true
   },
+  type: {
+    type: String,
+    required: true
+  },
   start: {
     type: String,
     required: true

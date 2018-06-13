@@ -11,6 +11,7 @@ router.post('/', async (req, res, next) => {
   let newLeave = new Leave ({
     userId: user._id,
     status: req.body.status,
+    type: req.body.type,
     start: req.body.start,
     end: req.body.end
   });
@@ -43,19 +44,23 @@ router.delete('/:leaveId', async (req, res, next) => {
     let leaveId = await Leave.findById(req.params.leaveId);
     if (leaveId === null) {
       let err = new Error('ID not found');
-      next(err);
+      return next(err);
+    } else if (leaveId.userId != req.body.userId) {
+      let err = new Error('Unable to delete leaves not filed by you');
+      return next(err);
+    } else {
+      /** Refund leave credits */
+      const user = await User.findById(leaveId.userId);
+      let newCredits = user.leaveCredits + Number(req.body.toAdd);
+      user.leaveCredits = newCredits;
+      user.save();
+  
+      let toDelete = await leaveId.remove();
+      res.status(200).json({
+        message: 'Leave removed',
+        data: toDelete
+      });
     }
-    /** Refund leave credits */
-    const user = await User.findById(leaveId.userId);
-    let newCredits = user.leaveCredits + Number(req.body.toAdd);
-    user.leaveCredits = newCredits;
-    user.save();
-
-    let toDelete = await leaveId.remove();
-    res.status(200).json({
-      message: 'Leave removed',
-      data: toDelete
-    });
   } catch (error) {
     next(error)
   }
