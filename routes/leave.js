@@ -26,7 +26,8 @@ router.post('/', async (req, res, next) => {
 
     res.status(201).json({
       message: 'Leave added',
-      data: mongoUpload
+      data: mongoUpload,
+      leaveCredits: newCredits
     });
   } catch (error) {
     next(error);
@@ -58,7 +59,8 @@ router.delete('/:leaveId', async (req, res, next) => {
       let toDelete = await leaveId.remove();
       res.status(200).json({
         message: 'Leave removed',
-        data: toDelete
+        data: toDelete,
+        leaveCredits: newCredits
       });
     }
   } catch (error) {
