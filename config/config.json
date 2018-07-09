@@ -8,5 +8,9 @@
     "PORT": 4300,
     "MONGODB_URI": "mongodb://localhost:27017/leave-tracker",
     "JWT_SECRET": "YmSWCTD4f8LsHnOtmVEi"
+  },
+  "production": {
+    "MONGODB_URI": "mongodb://leave-admin:6Y81nchmqE@ds131711.mlab.com:31711/leave_calendar",
+    "JWT_SECRET": "CFmrgXyNhZVHMZPxfNz3"
   }
 }
