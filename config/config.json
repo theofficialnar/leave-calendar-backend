@@ -1,16 +1,16 @@
 {
   "test": {
     "PORT": 4300,
-    "MONGODB_URI": "mongodb://localhost:27017/leave-tracker-test",
+    "MONGODB_URI": "mongodb+srv://creatives-admin-1:SGIhfDVa8AgfzWA8@creatives-leave-calendar-1qggm.mongodb.net/test?retryWrites=true",
     "JWT_SECRET": "9oJF93LgVXUUNQtXkTR9"
   },
   "development": {
     "PORT": 4300,
-    "MONGODB_URI": "mongodb://localhost:27017/leave-tracker",
+    "MONGODB_URI": "mongodb+srv://creatives-admin-1:SGIhfDVa8AgfzWA8@creatives-leave-calendar-1qggm.mongodb.net/dev?retryWrites=true",
     "JWT_SECRET": "YmSWCTD4f8LsHnOtmVEi"
   },
   "production": {
-    "MONGODB_URI": "mongodb://leave-admin:6Y81nchmqE@ds131711.mlab.com:31711/leave_calendar",
+    "MONGODB_URI": "mongodb+srv://creatives-admin-1:SGIhfDVa8AgfzWA8@creatives-leave-calendar-1qggm.mongodb.net/prod?retryWrites=true",
     "JWT_SECRET": "CFmrgXyNhZVHMZPxfNz3"
   }
 }
