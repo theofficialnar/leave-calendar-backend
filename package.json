@@ -21,10 +21,7 @@
     "serve-favicon": "~2.4.5"
   },
   "devDependencies": {
-    "axios": "^0.18.0",
-    "concurrently": "^4.0.1",
     "jest": "^23.6.0",
-    "supertest": "^3.3.0",
-    "wait-on": "^3.1.0"
+    "supertest": "^3.3.0"
   }
 }
