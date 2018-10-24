@@ -19,7 +19,7 @@ cronLeave.start();
 mongoose
   .connect(
     process.env.MONGODB_URI,
-    { useNewUrlParser: true }
+    { useCreateIndex: true, useNewUrlParser: true }
   )
   .then(
     () => {

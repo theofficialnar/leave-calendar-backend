@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "jest": "wait-on http://localhost:4300/ && jest --runInBand",
+    "test": "export NODE_ENV=test || SET \"NODE_ENV=test\" && concurrently \"npm start\" \"npm run jest\""
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -18,5 +20,12 @@
     "morgan": "~1.9.0",
     "node-cron": "^1.2.1",
     "serve-favicon": "~2.4.5"
+  },
+  "devDependencies": {
+    "axios": "^0.18.0",
+    "concurrently": "^4.0.1",
+    "jest": "^23.6.0",
+    "supertest": "^3.3.0",
+    "wait-on": "^3.1.0"
   }
 }
