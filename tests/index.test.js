@@ -1,9 +1,12 @@
 const mongoose = require("mongoose");
 
-const clearDB = () => {
+beforeAll(done => {
   for (var i in mongoose.connection.collections) {
     mongoose.connection.collections[i].deleteMany({});
   }
-};
+  console.log("Test database cleared. Ready to run test suite.");
+  done();
+});
 
-module.exports = { clearDB };
+require("./admin-test");
+require("./env-test");
