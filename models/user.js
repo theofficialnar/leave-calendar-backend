@@ -1,30 +1,38 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const muv = require('mongoose-unique-validator');
+const muv = require("mongoose-unique-validator");
 
-const { ObjectID } = require('mongodb');
+const { ObjectID } = require("mongodb");
 
-var schema = new Schema({
-  fullName: {
-    type: String,
-    required: true,
-    unique: true
+var schema = new Schema(
+  {
+    firstName: {
+      type: String,
+      required: true
+    },
+    lastName: {
+      type: String,
+      required: true
+    },
+    leaveCredits: {
+      type: Number
+    },
+    filedLeaves: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Leave"
+      }
+    ]
   },
-  leaveCredits: {
-    type: Number
-  },
-  filedLeaves: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Leave'
-  }]
-}, {
-  usePushEach: true
-});
+  {
+    usePushEach: true
+  }
+);
 
 schema.plugin(muv);
 
-schema.pre('remove', function (next) {
-  const Leave = require('./leave');
+schema.pre("remove", function(next) {
+  const Leave = require("./leave");
   let user = this;
   let toDelete = [];
   user.filedLeaves.forEach(function(item) {
@@ -37,4 +45,4 @@ schema.pre('remove', function (next) {
   next();
 });
 
-module.exports = mongoose.model('User', schema);
+module.exports = mongoose.model("User", schema);

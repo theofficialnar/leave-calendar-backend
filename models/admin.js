@@ -1,12 +1,12 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const muv = require('mongoose-unique-validator');
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const muv = require("mongoose-unique-validator");
 
 const Schema = mongoose.Schema;
 
 var schema = new Schema({
-  userName: {
+  username: {
     type: String,
     required: true,
     unique: true
@@ -20,16 +20,18 @@ var schema = new Schema({
 schema.plugin(muv);
 
 /** Custom method to create JWT */
-schema.methods.genToken = function () {
+schema.methods.genToken = function() {
   let user = this;
-  let token = jwt.sign({_id : user._id.toHexString()},
-  process.env.JWT_SECRET,
-  {expiresIn: 3600});
+  let token = jwt.sign(
+    { _id: user._id.toHexString() },
+    process.env.JWT_SECRET,
+    { expiresIn: 3600 }
+  );
   return token;
-}
+};
 
 /** Hash password before saving to database */
-schema.pre('save', function (next) {
+schema.pre("save", function(next) {
   let user = this;
   bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(user.password, salt, (err, hash) => {
@@ -40,18 +42,18 @@ schema.pre('save', function (next) {
 });
 
 /** Used for checking if username & password match db */
-schema.statics.findByCredentials = function (userName, password) {
+schema.statics.findByCredentials = function(userName, password) {
   let Admin = this;
-  return Admin.findOne({userName}).then((user) => {
-    if (!user) return Promise.reject('User not found');
+  return Admin.findOne({ userName }).then(user => {
+    if (!user) return Promise.reject("User not found");
 
     return new Promise((resolve, reject) => {
       bcrypt.compare(password, user.password, (err, res) => {
         if (res) resolve(user);
-        reject('Password is incorrect');
+        reject("Password is incorrect");
       });
     });
   });
-}
+};
 
-module.exports = mongoose.model('Admin', schema);
+module.exports = mongoose.model("Admin", schema);
