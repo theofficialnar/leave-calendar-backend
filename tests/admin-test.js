@@ -16,6 +16,7 @@ const test = describe("route: admin", () => {
   it("should add a new admin acccount", () => {
     return postAdmin("/admin", adminData).then(response => {
       expect(response.status).toBe(201);
+      expect(response.type).toEqual("application/json");
       expect(response.body.data).toHaveProperty("_id");
     });
   });
@@ -23,12 +24,14 @@ const test = describe("route: admin", () => {
   it("should NOT create a new admin account with duplicate name", () => {
     return postAdmin("/admin", adminData).then(response => {
       expect(response.status).toBe(500);
+      expect(response.type).toEqual("application/json");
     });
   });
 
   it("should log valid admin account in", () => {
     return postAdmin("/admin/signin", adminData).then(response => {
       expect(response.status).toBe(200);
+      expect(response.type).toEqual("application/json");
       expect(response.body).toHaveProperty("token");
     });
   });
@@ -39,6 +42,7 @@ const test = describe("route: admin", () => {
       password: "1234"
     }).then(response => {
       expect(response.status).toBe(500);
+      expect(response.type).toEqual("application/json");
     });
   });
 
@@ -48,6 +52,7 @@ const test = describe("route: admin", () => {
       password: "incorrectpassword"
     }).then(response => {
       expect(response.status).toBe(500);
+      expect(response.type).toEqual("application/json");
     });
   });
 });
