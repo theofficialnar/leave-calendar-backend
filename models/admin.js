@@ -5,17 +5,22 @@ const muv = require("mongoose-unique-validator");
 
 const Schema = mongoose.Schema;
 
-var schema = new Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true
+var schema = new Schema(
+  {
+    username: {
+      type: String,
+      required: true,
+      unique: true
+    },
+    password: {
+      type: String,
+      required: true
+    }
   },
-  password: {
-    type: String,
-    required: true
+  {
+    timestamps: true
   }
-});
+);
 
 schema.plugin(muv);
 

@@ -25,7 +25,8 @@ var schema = new Schema(
     ]
   },
   {
-    usePushEach: true
+    usePushEach: true,
+    timestamps: true
   }
 );
 
