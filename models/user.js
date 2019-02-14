@@ -14,6 +14,14 @@ var schema = new Schema(
       type: String,
       required: true
     },
+    team: {
+      type: String,
+      required: true
+    },
+    brand: {
+      type: String,
+      required: true
+    },
     leaveCredits: {
       type: Number
     },
