@@ -47,17 +47,19 @@ schema.pre("save", function(next) {
 });
 
 /** Used for checking if username & password match db */
-schema.statics.findByCredentials = function(userName, password) {
+schema.statics.findByCredentials = function(username, password) {
   let Admin = this;
-  return Admin.findOne({ userName }).then(user => {
-    if (!user) return Promise.reject("User not found");
-
-    return new Promise((resolve, reject) => {
-      bcrypt.compare(password, user.password, (err, res) => {
-        if (res) resolve(user);
-        reject("Password is incorrect");
+  return Admin.findOne({ username }).then(user => {
+    if (!user) {
+      return Promise.reject("User not found");
+    } else {
+      return new Promise((resolve, reject) => {
+        bcrypt.compare(password, user.password, (err, res) => {
+          if (res) resolve(user);
+          reject("Password is incorrect");
+        });
       });
-    });
+    }
   });
 };
 

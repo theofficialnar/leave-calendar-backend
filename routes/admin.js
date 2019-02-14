@@ -25,7 +25,7 @@ router.post("/", async (req, res, next) => {
 router.post("/signin", async (req, res, next) => {
   try {
     let user = await Admin.findByCredentials(
-      req.body.userName,
+      req.body.username,
       req.body.password
     );
     let token = await user.genToken();
