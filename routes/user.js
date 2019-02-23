@@ -66,6 +66,8 @@ router.post("/", authenticate, async (req, res, next) => {
   let newUser = new User({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
+    team: req.body.team,
+    brand: req.body.brand,
     leaveCredits: req.body.leaveCredits || 0
   });
 
