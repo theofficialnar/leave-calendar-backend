@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon --exec node ./bin/www",
+    "start": "node ./bin/www",
+    "dev": "nodemon --exec node ./bin/www",
     "test": "jest --detectOpenHandles"
   },
   "dependencies": {
@@ -12,7 +13,7 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "^4.16.4",
-    "hbs": "^4.0.2",
+    "hbs": "^4.0.4",
     "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.4.5",
     "mongoose-unique-validator": "^2.0.2",
